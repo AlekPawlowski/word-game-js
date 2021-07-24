@@ -61,21 +61,42 @@ const gameObject = [{
         'bus',
         'train'
     ]
-}]
+}];
 
-let sections, currentSection = 0, gameStart = false, buttonsNext, userName, score = 0;
+let sections, currentSection = 0, gameStart = false, userName, score = 0;
 
 let randomGamePick = Math.round(Math.random() * (gameObject.length - 1));
 
 window.onload = (e) => {
     section = document.querySelectorAll('section');
-    buttonsNext = document.querySelector('button');
+    playButton = document.getElementById('play');
+    finishButton = document.getElementById('finish');
+    checkButton = document.getElementById('check');
     section[0].classList.add("active");
-    buttonsNext.onclick = sectionVisilityChange;
+    
+    playButton.onclick = () =>{
+        sectionVisilityChange();
+        gameInit();
+    };
+    checkButton.onclick = () =>{
+        gameCheck();
+    };
+    finishButton.onclick = sectionVisilityChange; 
 };
 
+// buttonsNext.onclick = sectionVisilityChange;
 const sectionVisilityChange = () => {
     section[currentSection].classList.remove("active");
     currentSection++;
     section[currentSection].classList.add('active');
+};
+
+const gameInit = () => {
+    console.log('gameInit');
+    gameStart = true;
+};
+
+const gameCheck = () => {
+    checkButton.style.display = 'none';
+    finishButton.style.display = 'block';
 }
