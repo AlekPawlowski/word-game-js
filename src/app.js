@@ -76,7 +76,12 @@ let sections,
     randomGamePick,
     boardWidth,
     boardHeight,
-    divCordinates = [];
+    divCordinates = [],
+    spanHeight,
+    spanWidth,
+    spanTop,
+    spanLeft;
+
 window.onload = (e) => {
     section = document.querySelectorAll('section');
     playButton = document.getElementById('play');
@@ -129,14 +134,36 @@ const fillBoard = (words) => {
         newGameSpan = document.createElement('span');
         newGameSpan.innerHTML = word;
         newGameSpan.id = `option-${index}`;
-        style = newGameSpan.style;
+        newGameSpan.style.display= 'inline-block';
+        newGameSpan.style.position = 'absolute';
         boardGame.append(newGameSpan);
+        randomizePosition(newGameSpan);
     });
 };
+
+const randomizePosition = (elementToPlace) => {
+    e = elementToPlace;
+    spanWidth = Math.round(e.getBoundingClientRect().width);
+    spanHeight = Math.round(e.getBoundingClientRect().height);
+    e.style.top = Math.round(Math.random() * boardHeight);
+    e.style.left = Math.round(Math.random() * boardWidth);
+    spanTop = e.offsetTop;
+    spanLeft = e.offsetLeft;
+    let checkElementIsInArrayTop = spanTop + spanHeight;
+    let checkElementIsInArrayWidth = spanLeft + spanWidth;
+    console.log(`h:${spanHeight}`,`w:${spanWidth}`,`t:${spanTop}`,`l:${spanLeft}`);
+    console.log("top",checkElementIsInArrayTop)
+    console.log("left", checkElementIsInArrayWidth);
+    console.log(boardHeight,boardWidth);
+    if (checkElementIsInArrayTop > boardHeight || checkElementIsInArrayWidth > boardWidth){
+        randomizePosition(e);
+    }
+}
 
 const createCordinatesFromElement = (ele) => {
     boardWidth = Math.round(ele.getBoundingClientRect().width);
     boardHeight = Math.round(ele.getBoundingClientRect().height);
+    console.log(boardHeight, boardWidth)
     let array = new Array(boardHeight).fill(boardWidth);
     return array;
 };
