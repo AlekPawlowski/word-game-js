@@ -80,7 +80,9 @@ let sections,
     spanHeight,
     spanWidth,
     spanTop,
-    spanLeft;
+    spanLeft,
+    checkElementIsInArrayWidth,
+    checkElementIsInArrayHeight;
 
 window.onload = (e) => {
     section = document.querySelectorAll('section');
@@ -129,7 +131,6 @@ const gameCheck = () => {
 
 const fillBoard = (words) => {
     let style;
-    console.log(divCordinates)
     words.forEach((word, index) =>{
         newGameSpan = document.createElement('span');
         newGameSpan.innerHTML = word;
@@ -149,21 +150,36 @@ const randomizePosition = (elementToPlace) => {
     e.style.left = Math.round(Math.random() * boardWidth);
     spanTop = e.offsetTop;
     spanLeft = e.offsetLeft;
-    let checkElementIsInArrayTop = spanTop + spanHeight;
-    let checkElementIsInArrayWidth = spanLeft + spanWidth;
-    console.log(`h:${spanHeight}`,`w:${spanWidth}`,`t:${spanTop}`,`l:${spanLeft}`);
-    console.log("top",checkElementIsInArrayTop)
-    console.log("left", checkElementIsInArrayWidth);
-    console.log(boardHeight,boardWidth);
+    checkElementIsInArrayTop = spanTop + spanHeight;
+    checkElementIsInArrayWidth = spanLeft + spanWidth;
+    // console.log(e);
+    // console.log(`h:${spanHeight}`,`w:${spanWidth}`,`t:${spanTop}`,`l:${spanLeft}`);
+    // console.log("top",checkElementIsInArrayTop)
+    // console.log("left", checkElementIsInArrayWidth);
+    // console.log(boardHeight,boardWidth);
     if (checkElementIsInArrayTop > boardHeight || checkElementIsInArrayWidth > boardWidth){
         randomizePosition(e);
     }
-}
+    console.log(`t:${spanTop}`, `l:${spanLeft}`);
+    console.log(divCordinates[spanTop][spanLeft]);
+    checkIfEmptySpace();
+};
 
 const createCordinatesFromElement = (ele) => {
     boardWidth = Math.round(ele.getBoundingClientRect().width);
     boardHeight = Math.round(ele.getBoundingClientRect().height);
-    console.log(boardHeight, boardWidth)
-    let array = new Array(boardHeight).fill(boardWidth);
+    let array = [];
+    for (let i = 0; i < boardHeight; i++) {
+        array[i] = [];
+        for (let j = 0; j < boardWidth; j++) {
+            array[i][j] = 0;
+        }
+    }
+    // console.log(boardWidth, boardHeight);
+    // console.log(array);
     return array;
+};
+
+const checkIfEmptySpace= (topPosition, leftPosition, width, height, element)=>{
+
 };
