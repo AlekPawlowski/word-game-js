@@ -73,8 +73,10 @@ let sections,
     scoreParagraph,
     gameDetails,
     newGameSpan,
-    randomGamePick;
-
+    randomGamePick,
+    boardWidth,
+    boardHeight,
+    divCordinates = [];
 window.onload = (e) => {
     section = document.querySelectorAll('section');
     playButton = document.getElementById('play');
@@ -85,8 +87,10 @@ window.onload = (e) => {
     scoreParagraph = document.getElementById("score");
     
     section[0].classList.add("active");
+    
     playButton.onclick = () =>{
         sectionVisilityChange();
+        divCordinates = createCordinatesFromElement(boardGame);
         gameInit();
     };
     checkButton.onclick = () =>{
@@ -108,7 +112,9 @@ const gameInit = () => {
     gameDetails = gameObject[randomGamePick];
     gameGoal.innerHTML = gameDetails.question;
     fillBoard(gameDetails.all_words);
+    
     // startGame();
+    
 };
 
 const gameCheck = () => {
@@ -117,11 +123,20 @@ const gameCheck = () => {
 }
 
 const fillBoard = (words) => {
+    let style;
+    console.log(divCordinates)
     words.forEach((word, index) =>{
         newGameSpan = document.createElement('span');
         newGameSpan.innerHTML = word;
         newGameSpan.id = `option-${index}`;
-        newGameSpan.style.display = 'inline-block';
+        style = newGameSpan.style;
         boardGame.append(newGameSpan);
     });
+};
+
+const createCordinatesFromElement = (ele) => {
+    boardWidth = Math.round(ele.getBoundingClientRect().width);
+    boardHeight = Math.round(ele.getBoundingClientRect().height);
+    let array = new Array(boardHeight).fill(boardWidth);
+    return array;
 };
