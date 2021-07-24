@@ -1,7 +1,7 @@
 const {src, dest, watch, series} = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const browsersync = require('browser-sync').create();
-
+const clean = require('gulp-clean');
 const destSource = './build';
 
 const sassTask = ()=>{
@@ -38,7 +38,12 @@ const watchTask = () =>{
     watch(['src/*.js', './src/*.scss'], series(sassTask, jsTask, browserSyncReload));
 }
 
+const cleanUp = () => {
+    return src('build').pipe(clean());
+};
+
 exports.default = series(
+    cleanUp,
     htmlTask,
     sassTask,
     jsTask,
