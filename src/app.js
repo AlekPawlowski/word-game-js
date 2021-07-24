@@ -63,17 +63,28 @@ const gameObject = [{
     ]
 }];
 
-let sections, currentSection = 0, gameStart = false, userName, score = 0;
-
-let randomGamePick = Math.round(Math.random() * (gameObject.length - 1));
+let sections, 
+    boardGame,
+    currentSection = 0, 
+    gameStart = false, 
+    userName, 
+    score = 0,
+    gameGoal,
+    scoreParagraph,
+    gameDetails,
+    newGameSpan,
+    randomGamePick;
 
 window.onload = (e) => {
     section = document.querySelectorAll('section');
     playButton = document.getElementById('play');
     finishButton = document.getElementById('finish');
     checkButton = document.getElementById('check');
-    section[0].classList.add("active");
+    boardGame = document.getElementById("board");
+    gameGoal = document.getElementById("game_title");
+    scoreParagraph = document.getElementById("score");
     
+    section[0].classList.add("active");
     playButton.onclick = () =>{
         sectionVisilityChange();
         gameInit();
@@ -92,11 +103,25 @@ const sectionVisilityChange = () => {
 };
 
 const gameInit = () => {
-    console.log('gameInit');
     gameStart = true;
+    randomGamePick = Math.round(Math.random() * (gameObject.length - 1));
+    gameDetails = gameObject[randomGamePick];
+    gameGoal.innerHTML = gameDetails.question;
+    fillBoard(gameDetails.all_words);
+    // startGame();
 };
 
 const gameCheck = () => {
     checkButton.style.display = 'none';
     finishButton.style.display = 'block';
 }
+
+const fillBoard = (words) => {
+    words.forEach((word, index) =>{
+        newGameSpan = document.createElement('span');
+        newGameSpan.innerHTML = word;
+        newGameSpan.id = `option-${index}`;
+        newGameSpan.style.display = 'inline-block';
+        boardGame.append(newGameSpan);
+    });
+};
