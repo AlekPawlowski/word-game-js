@@ -70,11 +70,12 @@ let sections,
     userName,
     userNameInput,
     errorMessage,
-    gameGoal;
-
+    gameGoal,
+    scoreParagraph,
+    userNamePlaceholder;
+    
 //boarGame variables
-let scoreParagraph,
-    boardGame,
+let boardGame,
     gameStart = false,
     gameDetails,
     newGameSpan,
@@ -110,6 +111,9 @@ window.onload = (e) => {
     scoreParagraph = document.getElementById("score");
     userNameInput = document.getElementById("nameInput");
     errorMessage = document.getElementsByClassName("error-message");
+    userNamePlaceholder = document.getElementById("nick");
+    scoreParagraph = document.getElementById("score");
+    //
     section[0].classList.add("active");
 
     playButton.onclick = () => {
@@ -307,4 +311,9 @@ const checkAnwsersCorrection = () => {
     });
     score = (goodAnswers * 2) - (wrongAnswer + allGoodAnswer);
     console.log(`gA${allGoodAnswer} aA:${answerCounter} goodA:${goodAnswers} wA:${wrongAnswer} score:${score}`);
+};
+
+const finishGame = () =>{
+    userNamePlaceholder.innerHTML = userName;
+    scoreParagraph.innerHTML = score;
 };
