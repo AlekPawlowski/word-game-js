@@ -36,12 +36,19 @@ button{
     border: 1px solid black;
     border-radius: $borderRadius;
     position: relative;
+    span{
+        cursor: pointer;
+    }
 }
 section{
     display: none;
 }
 .active{
     display: block;
+}
+
+.active-answer{
+    font-weight: 900;
 }
 
 .error-message{

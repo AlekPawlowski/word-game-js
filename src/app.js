@@ -40,7 +40,7 @@ const gameObject = [{
         'blue',
         'yellow',
         'white',
-        'blac'
+        'black'
     ]
 },
 {
@@ -93,12 +93,14 @@ let scoreParagraph,
     checkElementIsInArrayHeight,
     resetPostionNeed,
     iteratorY,
-    iteratorX;
+    iteratorX,
+    correctAnswers = [];
 
 //game variables
 let boardSpans,
-    score = 0;
-
+    score = 0,
+    activeAnswers = [];
+    
 window.onload = (e) => {
     section = document.querySelectorAll('section');
     playButton = document.getElementById('play');
@@ -112,20 +114,20 @@ window.onload = (e) => {
     section[0].classList.add("active");
     
     playButton.onclick = () =>{
-        if(userNameInput.value == ''){
-            userNameInput.classList.add("error-input");
-            errorMessage[0].style.display = 'block';
-        }else{
-            errorMessage[0].style.display = 'none';
-            userNameInput.classList.remove("error-input");
+        // if(userNameInput.value == ''){
+        //     userNameInput.classList.add("error-input");
+        //     errorMessage[0].style.display = 'block';
+        // }else{
+            // errorMessage[0].style.display = 'none';
+            // userNameInput.classList.remove("error-input");
             userName = userNameInput.value;
             console.log(userName);
             sectionVisilityChange();
             divCordinates = createCordinatesFromElement(boardGame);
             gameInit();
-            console.log(newGameSpan);
-            // gameHandler();
-        }
+            boardSpans = document.querySelectorAll("#board span");
+            gameHandler(boardSpans);
+        // }
     };
     checkButton.onclick = () =>{
         gameCheck();
@@ -145,6 +147,9 @@ const gameInit = () => {
     randomGamePick = Math.round(Math.random() * (gameObject.length - 1));
     gameDetails = gameObject[randomGamePick];
     gameGoal.innerHTML = gameDetails.question;
+    for (let i in gameDetails.good_words) {
+        correctAnswers.push(gameDetails.good_words[i]);
+    }
     fillBoard(gameDetails.all_words);
     
     // startGame();
@@ -155,6 +160,15 @@ const gameCheck = () => {
     checkButton.style.display = 'none';
     finishButton.style.display = 'block';
 }
+
+
+// ██████╗  █████╗ ███╗   ██╗██████╗  ██████╗ ███╗   ███╗██╗███████╗███████╗    ██████╗  ██████╗ ███████╗██╗████████╗██╗ ██████╗ ███╗   ██╗     ██████╗ ███╗   ██╗    ██████╗  ██████╗  █████╗ ██████╗ ██████╗ 
+// ██╔══██╗██╔══██╗████╗  ██║██╔══██╗██╔═══██╗████╗ ████║██║╚══███╔╝██╔════╝    ██╔══██╗██╔═══██╗██╔════╝██║╚══██╔══╝██║██╔═══██╗████╗  ██║    ██╔═══██╗████╗  ██║    ██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔══██╗
+// ██████╔╝███████║██╔██╗ ██║██║  ██║██║   ██║██╔████╔██║██║  ███╔╝ █████╗      ██████╔╝██║   ██║███████╗██║   ██║   ██║██║   ██║██╔██╗ ██║    ██║   ██║██╔██╗ ██║    ██████╔╝██║   ██║███████║██████╔╝██║  ██║
+// ██╔══██╗██╔══██║██║╚██╗██║██║  ██║██║   ██║██║╚██╔╝██║██║ ███╔╝  ██╔══╝      ██╔═══╝ ██║   ██║╚════██║██║   ██║   ██║██║   ██║██║╚██╗██║    ██║   ██║██║╚██╗██║    ██╔══██╗██║   ██║██╔══██║██╔══██╗██║  ██║
+// ██║  ██║██║  ██║██║ ╚████║██████╔╝╚██████╔╝██║ ╚═╝ ██║██║███████╗███████╗    ██║     ╚██████╔╝███████║██║   ██║   ██║╚██████╔╝██║ ╚████║    ╚██████╔╝██║ ╚████║    ██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝
+// ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝╚══════╝╚══════╝    ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝     ╚═════╝ ╚═╝  ╚═══╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ 
+                                                                                                                                                                                                            
 
 const fillBoard = (words) => {
     words.forEach((word, index) =>{
@@ -248,4 +262,32 @@ const resetPostionInContainer = (array, filledY, filledX, element) =>{
         randomizePosition(element);
     }
 
+};
+
+
+//  ██████╗  █████╗ ███╗   ███╗███████╗    ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ 
+// ██╔════╝ ██╔══██╗████╗ ████║██╔════╝    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗
+// ██║  ███╗███████║██╔████╔██║█████╗      ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝
+// ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝      ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
+// ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗    ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
+//  ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
+                                                                                                  
+
+const gameHandler = (elements) => {
+    elements.forEach(e => {
+        e.onclick = () =>{
+            e.classList.contains("active-answer") ? e.classList.remove("active-answer") : e.classList.add("active-answer");
+            activeAnswers = updateAnswersArray(elements, activeAnswers);
+        };
+    });
+};
+
+const updateAnswersArray = (ele, array) => {
+    array = [];
+    ele.forEach(e => {
+        if (e.classList.contains("active-answer")){
+            array.push(e.innerHTML);
+        }
+    });
+    return array;
 };
