@@ -164,13 +164,11 @@ const randomizePosition = (elementToPlace) => {
     // console.log("top",endPositionY);
     // console.log("left", endPositionX);
     // console.log(boardHeight,boardWidth);
-    if (endPositionY > boardHeight || endPositionX > boardWidth){
+    if (endPositionY+10 >= boardHeight || endPositionX+10 >= boardWidth){
         randomizePosition(e);
     }else{
         putToEmptyPostition(divCordinates, startPostionX, startPostionY, spanWidth, spanHeight, e);
     }
-    // console.log(startPostionX)
-    // console.log(`t:${startPostionX}`, `l:${startPostionY}`);
 };
 
 const createCordinatesFromElement = (ele) => {
@@ -200,12 +198,12 @@ const putToEmptyPostition= (array, leftPosition, topPosition, width, height, ele
             if(i == topPosition){
                 currentFilledX.push(j);
             }
-            if(divCordinates[i][j] != 0){
+            if(array[i][j] != 0){
                 // console.log(`y:${currentFilledY}, X:${currentFilledX}`);
                 resetPostionNeed = true;
                 break;
             }else{
-                divCordinates[i][j] = 1;
+                array[i][j] = 1;
             }
         }
     }
@@ -218,12 +216,17 @@ const resetPostionInContainer = (array, filledY, filledX, element) =>{
     // console.log(filledY, filledX);
     // console.log(`y:${filledY[0]} x:${filledX[0]}`);
     // console.log(`lastY:${filledY[filledY.length - 1]} x:${filledX[filledX.length - 1]}`);
-    for (let i = filledY[0]; i <= filledY[filledY.length - 1]; i++) {
-        for (let j = filledX[0]; j <= filledX[filledX.length - 1]; j++) {
-            divCordinates[i][j] = 0;
+    // console.log(array[filledY[filledY.length - 1]]);
+    if(array[filledY[filledY.length - 1]] == undefined){
+        randomizePosition(element);
+    }else{
+        for (let i = filledY[0]; i < filledY[filledY.length - 1]; i++) {
+            for (let j = filledX[0]; j < filledX[filledX.length - 1]; j++) {
+                array[i][j] = 0;
+            }
         }
+        // console.log("endloop",element.id);
+        randomizePosition(element);
     }
-    console.log("endloop",element.id);
-    randomizePosition(element);
 
 };
