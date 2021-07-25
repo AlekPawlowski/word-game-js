@@ -47,6 +47,7 @@ section{
 .error-message{
     color: red;
     font-size: $smallFont;
+    display: none;
 }
 .error-input{
     border-color: red;
