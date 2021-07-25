@@ -36,9 +36,11 @@ button{
     border: 1px solid black;
     border-radius: $borderRadius;
     position: relative;
-    span{
-        cursor: pointer;
-    }
+}
+span{
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: $fontWeight;
 }
 section{
     display: none;
@@ -48,7 +50,7 @@ section{
 }
 
 .active-answer{
-    font-weight: 900;
+    color: lightgray;
 }
 
 .error-message{
@@ -67,7 +69,27 @@ section{
 
 .good{
     color: green;
+    &:before {
+        color: green;
+        content: "Good";
+    }
 }
 .wrong{
     color: red;
+    &:before {
+        color: red;
+        content: "bad";
+    }
+}
+
+.wrong,
+.good{
+    position: relative;
+    &:before {
+        position: absolute;
+        top: -10px;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        font-size: $largeFont;
+    }
 }

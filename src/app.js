@@ -98,8 +98,7 @@ let scoreParagraph,
 
 //game variables
 let boardSpans,
-    score = 0,
-    activeAnswers = [];
+    score = 0;
 
 window.onload = (e) => {
     section = document.querySelectorAll('section');
@@ -114,20 +113,20 @@ window.onload = (e) => {
     section[0].classList.add("active");
 
     playButton.onclick = () => {
-        // if(userNameInput.value == ''){
-        //     userNameInput.classList.add("error-input");
-        //     errorMessage[0].style.display = 'block';
-        // }else{
-        // errorMessage[0].style.display = 'none';
-        // userNameInput.classList.remove("error-input");
-        userName = userNameInput.value;
-        console.log(userName);
-        sectionVisilityChange();
-        divCordinates = createCordinatesFromElement(boardGame);
-        gameInit();
-        boardSpans = document.querySelectorAll("#board span");
-        gameHandler(boardSpans);
-        // }
+        if (userNameInput.value == '') {
+            userNameInput.classList.add("error-input");
+            errorMessage[0].style.display = 'block';
+        } else {
+            errorMessage[0].style.display = 'none';
+            userNameInput.classList.remove("error-input");
+            userName = userNameInput.value;
+            console.log(userName);
+            sectionVisilityChange();
+            divCordinates = createCordinatesFromElement(boardGame);
+            gameInit();
+            boardSpans = document.querySelectorAll("#board span");
+            gameHandler(boardSpans);
+        }
     };
     checkButton.onclick = () => {
         gameCheck();
@@ -282,19 +281,9 @@ const gameHandler = (elements) => {
     elements.forEach(e => {
         e.onclick = () => {
             e.classList.contains("active-answer") ? e.classList.remove("active-answer") : e.classList.add("active-answer");
-            activeAnswers = updateAnswersArray(elements, activeAnswers);
+            // activeAnswers = updateAnswersArray(elements, activeAnswers);
         };
     });
-};
-
-const updateAnswersArray = (ele, array) => {
-    array = [];
-    ele.forEach(e => {
-        if (e.classList.contains("active-answer")) {
-            array.push(e.innerHTML);
-        }
-    });
-    return array;
 };
 
 const checkAnwsersCorrection = () => {
@@ -304,18 +293,18 @@ const checkAnwsersCorrection = () => {
     let wrongAnswer = 0;
     console.log(`gA:${allGoodAnswer}`);
     boardSpans.forEach(e => {
-        if (e.classList.contains("active-answer")){
+        if (e.classList.contains("active-answer")) {
             answerCounter++;
-            if(correctAnswers.includes(e.innerHTML)){
+            if (correctAnswers.includes(e.innerHTML)) {
                 e.classList.add("good");
                 goodAnswers++;
                 allGoodAnswer--;
-            }else{
+            } else {
                 e.classList.add('wrong');
                 wrongAnswer++;
             }
         }
     });
-    score = (goodAnswers*2) - (wrongAnswer + allGoodAnswer);
+    score = (goodAnswers * 2) - (wrongAnswer + allGoodAnswer);
     console.log(`gA${allGoodAnswer} aA:${answerCounter} goodA:${goodAnswers} wA:${wrongAnswer} score:${score}`);
 };
