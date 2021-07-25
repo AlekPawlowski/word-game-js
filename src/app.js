@@ -77,12 +77,18 @@ let sections,
     boardWidth,
     boardHeight,
     divCordinates = [],
+    spanCordinates = [],
+    currentFilledX = [],
+    currentFilledY = [],
     spanHeight,
     spanWidth,
-    spanTop,
-    spanLeft,
+    startPostionX,
+    startPostionY,
     checkElementIsInArrayWidth,
-    checkElementIsInArrayHeight;
+    checkElementIsInArrayHeight,
+    resetPostionNeed,
+    iteratorY,
+    iteratorX;
 
 window.onload = (e) => {
     section = document.querySelectorAll('section');
@@ -99,6 +105,7 @@ window.onload = (e) => {
         sectionVisilityChange();
         divCordinates = createCordinatesFromElement(boardGame);
         gameInit();
+        // console.log(divCordinates);
     };
     checkButton.onclick = () =>{
         gameCheck();
@@ -148,21 +155,22 @@ const randomizePosition = (elementToPlace) => {
     spanHeight = Math.round(e.getBoundingClientRect().height);
     e.style.top = Math.round(Math.random() * boardHeight);
     e.style.left = Math.round(Math.random() * boardWidth);
-    spanTop = e.offsetTop;
-    spanLeft = e.offsetLeft;
-    checkElementIsInArrayTop = spanTop + spanHeight;
-    checkElementIsInArrayWidth = spanLeft + spanWidth;
-    // console.log(e);
-    // console.log(`h:${spanHeight}`,`w:${spanWidth}`,`t:${spanTop}`,`l:${spanLeft}`);
-    // console.log("top",checkElementIsInArrayTop)
-    // console.log("left", checkElementIsInArrayWidth);
+    startPostionY = e.offsetTop;
+    startPostionX = e.offsetLeft;
+    endPositionY = startPostionY + spanHeight;
+    endPositionX = startPostionX + spanWidth;
+    console.log(e.id);
+    // console.log(`h:${spanHeight}`,`w:${spanWidth}`,`t:${startPostionX}`,`l:${startPostionY}`);
+    // console.log("top",endPositionY);
+    // console.log("left", endPositionX);
     // console.log(boardHeight,boardWidth);
-    if (checkElementIsInArrayTop > boardHeight || checkElementIsInArrayWidth > boardWidth){
+    if (endPositionY > boardHeight || endPositionX > boardWidth){
         randomizePosition(e);
+    }else{
+        putToEmptyPostition(divCordinates, startPostionX, startPostionY, spanWidth, spanHeight, e);
     }
-    console.log(`t:${spanTop}`, `l:${spanLeft}`);
-    console.log(divCordinates[spanTop][spanLeft]);
-    checkIfEmptySpace();
+    // console.log(startPostionX)
+    // console.log(`t:${startPostionX}`, `l:${startPostionY}`);
 };
 
 const createCordinatesFromElement = (ele) => {
@@ -175,11 +183,48 @@ const createCordinatesFromElement = (ele) => {
             array[i][j] = 0;
         }
     }
-    // console.log(boardWidth, boardHeight);
-    // console.log(array);
     return array;
 };
 
-const checkIfEmptySpace= (topPosition, leftPosition, width, height, element)=>{
+const putToEmptyPostition= (array, leftPosition, topPosition, width, height, element)=>{
+    // console.log(`w: ${width}`, `h: ${height}`, `t:${topPosition}`, `l:${leftPosition}`, element.id);
+    iteratorY = topPosition + height;
+    iteratorX = leftPosition + width;
+    // console.log(`yS:${topPosition} yE:${iteratorY}`, `xS:${leftPosition} xE:${iteratorX}`);
+    currentFilledY = [];
+    currentFilledX = [];
+    resetPostionNeed = false;
+    for (let i = topPosition; i < iteratorY; i++) {
+        currentFilledY.push(i);
+        for (let j = leftPosition; j < iteratorX - 1; j++) {
+            if(i == topPosition){
+                currentFilledX.push(j);
+            }
+            if(divCordinates[i][j] != 0){
+                // console.log(`y:${currentFilledY}, X:${currentFilledX}`);
+                resetPostionNeed = true;
+                console.log("wtf");
+                break;
+            }else{
+                divCordinates[i][j] = 1;
+            }
+        }
+    }
+    if(resetPostionNeed){
+        resetPostionInContainer(array, currentFilledX, currentFilledY, element);
+    }
+};
+
+const resetPostionInContainer = (array, filledY, filledX, element) =>{
+    // console.log(filledY, filledX);
+    // console.log(`y:${filledY[0]} x:${filledX[0]}`);
+    // console.log(`lastY:${filledY[filledY.length - 1]} x:${filledX[filledX.length - 1]}`);
+    for (let i = filledY[0]; i <= filledY[filledY.length - 1]; i++) {
+        for (let j = filledX[0]; j <= filledX[filledX.length - 1]; j++) {
+            divCordinates[i][j] = 0;
+        }
+    }
+    console.log("endloop",element.id);
+    randomizePosition(element);
 
 };
