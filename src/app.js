@@ -63,14 +63,19 @@ const gameObject = [{
     ]
 }];
 
+
+//init variables
 let sections, 
-    boardGame,
-    currentSection = 0, 
-    gameStart = false, 
+    currentSection = 0,
     userName, 
-    score = 0,
-    gameGoal,
-    scoreParagraph,
+    userNameInput,
+    errorMessage,
+    gameGoal;
+
+//boarGame variables
+let scoreParagraph,
+    boardGame,
+    gameStart = false,
     gameDetails,
     newGameSpan,
     randomGamePick,
@@ -90,6 +95,10 @@ let sections,
     iteratorY,
     iteratorX;
 
+//game variables
+let boardSpans,
+    score = 0;
+
 window.onload = (e) => {
     section = document.querySelectorAll('section');
     playButton = document.getElementById('play');
@@ -98,14 +107,25 @@ window.onload = (e) => {
     boardGame = document.getElementById("board");
     gameGoal = document.getElementById("game_title");
     scoreParagraph = document.getElementById("score");
-    
+    userNameInput = document.getElementById("nameInput");
+    errorMessage = document.getElementsByClassName("error-message");
     section[0].classList.add("active");
     
     playButton.onclick = () =>{
-        sectionVisilityChange();
-        divCordinates = createCordinatesFromElement(boardGame);
-        gameInit();
-        // console.log(divCordinates);
+        if(userNameInput.value == ''){
+            userNameInput.classList.add("error-input");
+            errorMessage[0].style.display = 'block';
+        }else{
+            errorMessage[0].style.display = 'none';
+            userNameInput.classList.remove("error-input");
+            userName = userNameInput.value;
+            console.log(userName);
+            sectionVisilityChange();
+            divCordinates = createCordinatesFromElement(boardGame);
+            gameInit();
+            console.log(newGameSpan);
+            // gameHandler();
+        }
     };
     checkButton.onclick = () =>{
         gameCheck();
@@ -137,7 +157,6 @@ const gameCheck = () => {
 }
 
 const fillBoard = (words) => {
-    let style;
     words.forEach((word, index) =>{
         newGameSpan = document.createElement('span');
         newGameSpan.innerHTML = word;
@@ -159,7 +178,7 @@ const randomizePosition = (elementToPlace) => {
     startPostionX = e.offsetLeft;
     endPositionY = startPostionY + spanHeight;
     endPositionX = startPostionX + spanWidth;
-    console.log(e.id);
+    // console.log(e.id);
     // console.log(`h:${spanHeight}`,`w:${spanWidth}`,`t:${startPostionX}`,`l:${startPostionY}`);
     // console.log("top",endPositionY);
     // console.log("left", endPositionX);
