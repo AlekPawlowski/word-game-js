@@ -203,7 +203,6 @@ const putToEmptyPostition= (array, leftPosition, topPosition, width, height, ele
             if(divCordinates[i][j] != 0){
                 // console.log(`y:${currentFilledY}, X:${currentFilledX}`);
                 resetPostionNeed = true;
-                console.log("wtf");
                 break;
             }else{
                 divCordinates[i][j] = 1;
