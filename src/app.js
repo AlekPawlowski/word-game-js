@@ -132,7 +132,10 @@ window.onload = (e) => {
     checkButton.onclick = () => {
         gameCheck();
     };
-    finishButton.onclick = sectionVisilityChange;
+    finishButton.onclick = () => {
+        finishGame();
+        sectionVisilityChange();
+    };
 };
 
 // buttonsNext.onclick = sectionVisilityChange;
@@ -143,6 +146,7 @@ const sectionVisilityChange = () => {
 };
 
 const gameInit = () => {
+    score = 0;
     gameStart = true;
     randomGamePick = Math.round(Math.random() * (gameObject.length - 1));
     gameDetails = gameObject[randomGamePick];
@@ -294,8 +298,24 @@ const updateAnswersArray = (ele, array) => {
 };
 
 const checkAnwsersCorrection = () => {
+    let answerCounter = 0;
+    let allGoodAnswer = correctAnswers.length;
+    let goodAnswers = 0;
+    let wrongAnswer = 0;
+    console.log(`gA:${allGoodAnswer}`);
     boardSpans.forEach(e => {
-        
-    })
-    console.log(activeAnswers, correctAnswers);
+        if (e.classList.contains("active-answer")){
+            answerCounter++;
+            if(correctAnswers.includes(e.innerHTML)){
+                e.classList.add("good");
+                goodAnswers++;
+                allGoodAnswer--;
+            }else{
+                e.classList.add('wrong');
+                wrongAnswer++;
+            }
+        }
+    });
+    score = (goodAnswers*2) - (wrongAnswer + allGoodAnswer);
+    console.log(`gA${allGoodAnswer} aA:${answerCounter} goodA:${goodAnswers} wA:${wrongAnswer} score:${score}`);
 };
