@@ -65,9 +65,9 @@ const gameObject = [{
 
 
 //init variables
-let sections, 
+let sections,
     currentSection = 0,
-    userName, 
+    userName,
     userNameInput,
     errorMessage,
     gameGoal;
@@ -100,7 +100,7 @@ let scoreParagraph,
 let boardSpans,
     score = 0,
     activeAnswers = [];
-    
+
 window.onload = (e) => {
     section = document.querySelectorAll('section');
     playButton = document.getElementById('play');
@@ -112,27 +112,27 @@ window.onload = (e) => {
     userNameInput = document.getElementById("nameInput");
     errorMessage = document.getElementsByClassName("error-message");
     section[0].classList.add("active");
-    
-    playButton.onclick = () =>{
+
+    playButton.onclick = () => {
         // if(userNameInput.value == ''){
         //     userNameInput.classList.add("error-input");
         //     errorMessage[0].style.display = 'block';
         // }else{
-            // errorMessage[0].style.display = 'none';
-            // userNameInput.classList.remove("error-input");
-            userName = userNameInput.value;
-            console.log(userName);
-            sectionVisilityChange();
-            divCordinates = createCordinatesFromElement(boardGame);
-            gameInit();
-            boardSpans = document.querySelectorAll("#board span");
-            gameHandler(boardSpans);
+        // errorMessage[0].style.display = 'none';
+        // userNameInput.classList.remove("error-input");
+        userName = userNameInput.value;
+        console.log(userName);
+        sectionVisilityChange();
+        divCordinates = createCordinatesFromElement(boardGame);
+        gameInit();
+        boardSpans = document.querySelectorAll("#board span");
+        gameHandler(boardSpans);
         // }
     };
-    checkButton.onclick = () =>{
+    checkButton.onclick = () => {
         gameCheck();
     };
-    finishButton.onclick = sectionVisilityChange; 
+    finishButton.onclick = sectionVisilityChange;
 };
 
 // buttonsNext.onclick = sectionVisilityChange;
@@ -151,15 +151,16 @@ const gameInit = () => {
         correctAnswers.push(gameDetails.good_words[i]);
     }
     fillBoard(gameDetails.all_words);
-    
+
     // startGame();
-    
+
 };
 
 const gameCheck = () => {
+    checkAnwsersCorrection();
     checkButton.style.display = 'none';
     finishButton.style.display = 'block';
-}
+};
 
 
 // ██████╗  █████╗ ███╗   ██╗██████╗  ██████╗ ███╗   ███╗██╗███████╗███████╗    ██████╗  ██████╗ ███████╗██╗████████╗██╗ ██████╗ ███╗   ██╗     ██████╗ ███╗   ██╗    ██████╗  ██████╗  █████╗ ██████╗ ██████╗ 
@@ -168,14 +169,14 @@ const gameCheck = () => {
 // ██╔══██╗██╔══██║██║╚██╗██║██║  ██║██║   ██║██║╚██╔╝██║██║ ███╔╝  ██╔══╝      ██╔═══╝ ██║   ██║╚════██║██║   ██║   ██║██║   ██║██║╚██╗██║    ██║   ██║██║╚██╗██║    ██╔══██╗██║   ██║██╔══██║██╔══██╗██║  ██║
 // ██║  ██║██║  ██║██║ ╚████║██████╔╝╚██████╔╝██║ ╚═╝ ██║██║███████╗███████╗    ██║     ╚██████╔╝███████║██║   ██║   ██║╚██████╔╝██║ ╚████║    ╚██████╔╝██║ ╚████║    ██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝
 // ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝╚══════╝╚══════╝    ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝     ╚═════╝ ╚═╝  ╚═══╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ 
-                                                                                                                                                                                                            
+
 
 const fillBoard = (words) => {
-    words.forEach((word, index) =>{
+    words.forEach((word, index) => {
         newGameSpan = document.createElement('span');
         newGameSpan.innerHTML = word;
         newGameSpan.id = `option-${index}`;
-        newGameSpan.style.display= 'inline-block';
+        newGameSpan.style.display = 'inline-block';
         newGameSpan.style.position = 'absolute';
         boardGame.append(newGameSpan);
         randomizePosition(newGameSpan);
@@ -197,9 +198,9 @@ const randomizePosition = (elementToPlace) => {
     // console.log("top",endPositionY);
     // console.log("left", endPositionX);
     // console.log(boardHeight,boardWidth);
-    if (endPositionY+10 >= boardHeight || endPositionX+10 >= boardWidth){
+    if (endPositionY + 10 >= boardHeight || endPositionX + 10 >= boardWidth) {
         randomizePosition(e);
-    }else{
+    } else {
         putToEmptyPostition(divCordinates, startPostionX, startPostionY, spanWidth, spanHeight, e);
     }
 };
@@ -217,7 +218,7 @@ const createCordinatesFromElement = (ele) => {
     return array;
 };
 
-const putToEmptyPostition= (array, leftPosition, topPosition, width, height, element)=>{
+const putToEmptyPostition = (array, leftPosition, topPosition, width, height, element) => {
     // console.log(`w: ${width}`, `h: ${height}`, `t:${topPosition}`, `l:${leftPosition}`, element.id);
     iteratorY = topPosition + height;
     iteratorX = leftPosition + width;
@@ -228,31 +229,31 @@ const putToEmptyPostition= (array, leftPosition, topPosition, width, height, ele
     for (let i = topPosition; i < iteratorY; i++) {
         currentFilledY.push(i);
         for (let j = leftPosition; j < iteratorX - 1; j++) {
-            if(i == topPosition){
+            if (i == topPosition) {
                 currentFilledX.push(j);
             }
-            if(array[i][j] != 0){
+            if (array[i][j] != 0) {
                 // console.log(`y:${currentFilledY}, X:${currentFilledX}`);
                 resetPostionNeed = true;
                 break;
-            }else{
+            } else {
                 array[i][j] = 1;
             }
         }
     }
-    if(resetPostionNeed){
+    if (resetPostionNeed) {
         resetPostionInContainer(array, currentFilledX, currentFilledY, element);
     }
 };
 
-const resetPostionInContainer = (array, filledY, filledX, element) =>{
+const resetPostionInContainer = (array, filledY, filledX, element) => {
     // console.log(filledY, filledX);
     // console.log(`y:${filledY[0]} x:${filledX[0]}`);
     // console.log(`lastY:${filledY[filledY.length - 1]} x:${filledX[filledX.length - 1]}`);
     // console.log(array[filledY[filledY.length - 1]]);
-    if(array[filledY[filledY.length - 1]] == undefined){
+    if (array[filledY[filledY.length - 1]] == undefined) {
         randomizePosition(element);
-    }else{
+    } else {
         for (let i = filledY[0]; i < filledY[filledY.length - 1]; i++) {
             for (let j = filledX[0]; j < filledX[filledX.length - 1]; j++) {
                 array[i][j] = 0;
@@ -271,11 +272,11 @@ const resetPostionInContainer = (array, filledY, filledX, element) =>{
 // ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝      ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
 // ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗    ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
 //  ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
-                                                                                                  
+
 
 const gameHandler = (elements) => {
     elements.forEach(e => {
-        e.onclick = () =>{
+        e.onclick = () => {
             e.classList.contains("active-answer") ? e.classList.remove("active-answer") : e.classList.add("active-answer");
             activeAnswers = updateAnswersArray(elements, activeAnswers);
         };
@@ -285,9 +286,16 @@ const gameHandler = (elements) => {
 const updateAnswersArray = (ele, array) => {
     array = [];
     ele.forEach(e => {
-        if (e.classList.contains("active-answer")){
+        if (e.classList.contains("active-answer")) {
             array.push(e.innerHTML);
         }
     });
     return array;
+};
+
+const checkAnwsersCorrection = () => {
+    boardSpans.forEach(e => {
+        
+    })
+    console.log(activeAnswers, correctAnswers);
 };
